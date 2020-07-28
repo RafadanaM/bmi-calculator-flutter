@@ -43,7 +43,7 @@ class ResultPage extends StatelessWidget {
                     style: kBMITextStyle,
                   ),
                   Text(
-                    'Your BMI result is...',
+                    'Your BMI result is..',
                     textAlign: TextAlign.center,
                     style: kBodyTextStyle,
                   ),
