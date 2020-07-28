@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'icon_content.dart';
 import 'reusable_card.dart';
 import 'gender.dart';
 import 'constants.dart';
+import 'round_icon_button.dart';
+import 'bottom_button.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -13,6 +17,9 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Gender selectedGender;
   int height = 180;
+  int weight = 40;
+  int age = 40;
+  Timer timer;
 
   @override
   Widget build(BuildContext context) {
@@ -85,10 +92,10 @@ class _InputPageState extends State<InputPage> {
                   ),
                   SliderTheme(
                     data: SliderTheme.of(context).copyWith(
-                      thumbColor: Color(0xFFEB1555),
-                      activeTrackColor: Colors.white,
-                      inactiveTrackColor: Color(0xFF8D8E98),
-                      overlayColor: Color(0x29EB1555),
+                      thumbColor: kSecondaryColour,
+                      activeTrackColor: kActiveTrackColour,
+                      inactiveTrackColor: kInactiveTrackColour,
+                      overlayColor: kOverlayColour,
                       thumbShape: RoundSliderThumbShape(
                         enabledThumbRadius: 15.0,
                       ),
@@ -98,8 +105,8 @@ class _InputPageState extends State<InputPage> {
                     ),
                     child: Slider(
                       value: height.toDouble(),
-                      min: 120.0,
-                      max: 220.0,
+                      min: kMinHeight,
+                      max: kMaxHeight,
                       onChanged: (double newValue) {
                         setState(() {
                           height = newValue.round();
@@ -115,19 +122,141 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: ReusableCard(colour: kActiveCardColour),
+                  child: ReusableCard(
+                    colour: kActiveCardColour,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'WEIGHT',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(
+                          weight.toString(),
+                          style: kNumberTextStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            RoundIconButton(
+                              onPressed: () {
+                                setState(() {
+                                  weight > 1 ? weight-- : weight = 1;
+                                });
+                              },
+                              onLongPress: () {
+                                timer = Timer.periodic(
+                                    Duration(milliseconds: 150), (timer) {
+                                  setState(() {
+                                    weight > 1 ? weight-- : weight = 1;
+                                  });
+                                });
+                              },
+                              onLongPressUp: () {
+                                timer.cancel();
+                              },
+                              child: FontAwesomeIcons.minus,
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            RoundIconButton(
+                              onPressed: () {
+                                setState(() {
+                                  weight < 200 ? weight++ : weight = 200;
+                                });
+                              },
+                              onLongPress: () {
+                                timer = Timer.periodic(
+                                    Duration(milliseconds: 150), (timer) {
+                                  setState(() {
+                                    weight < 200 ? weight++ : weight = 200;
+                                  });
+                                });
+                              },
+                              onLongPressUp: () {
+                                timer.cancel();
+                              },
+                              child: FontAwesomeIcons.plus,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 Expanded(
-                  child: ReusableCard(colour: kActiveCardColour),
+                  child: ReusableCard(
+                    colour: kActiveCardColour,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'AGE',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(
+                          age.toString(),
+                          style: kNumberTextStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            RoundIconButton(
+                              child: FontAwesomeIcons.minus,
+                              onLongPress: () {
+                                timer = Timer.periodic(
+                                    Duration(milliseconds: 150), (timer) {
+                                  setState(() {
+                                    age > 1 ? age-- : age = 1;
+                                  });
+                                });
+                              },
+                              onLongPressUp: () {
+                                timer.cancel();
+                              },
+                              onPressed: () {
+                                setState(() {
+                                  age > 1 ? age-- : age = 1;
+                                });
+                              },
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            RoundIconButton(
+                              child: FontAwesomeIcons.plus,
+                              onLongPress: () {
+                                timer = Timer.periodic(
+                                    Duration(milliseconds: 150), (timer) {
+                                  setState(() {
+                                    age < 120 ? age++ : age = 120;
+                                  });
+                                });
+                              },
+                              onLongPressUp: () {
+                                timer.cancel();
+                              },
+                              onPressed: () {
+                                setState(() {
+                                  age < 120 ? age++ : age = 120;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
-          Container(
-            color: kBottomContainerColour,
-            margin: EdgeInsets.only(top: 10.0),
-            width: double.infinity,
-            height: 80.0,
+          BottomButton(
+            title: 'CALCULATE',
+            onTap: () {
+              Navigator.pushNamed(context, '/result');
+            },
           )
         ],
       ),
