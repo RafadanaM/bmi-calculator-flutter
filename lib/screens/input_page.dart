@@ -1,13 +1,13 @@
 import 'dart:async';
 
+import 'package:bmi_calculator/components/bottom_button.dart';
+import 'package:bmi_calculator/components/gender.dart';
+import 'package:bmi_calculator/components/icon_content.dart';
+import 'package:bmi_calculator/components/reusable_card.dart';
+import 'package:bmi_calculator/components/round_icon_button.dart';
+import 'package:bmi_calculator/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'icon_content.dart';
-import 'reusable_card.dart';
-import 'gender.dart';
-import 'constants.dart';
-import 'round_icon_button.dart';
-import 'bottom_button.dart';
 
 class InputPage extends StatefulWidget {
   @override
